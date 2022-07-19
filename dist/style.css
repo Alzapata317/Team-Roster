@@ -1,0 +1,16 @@
+body, html {
+    margin: 0px;
+}
+nav {
+    background-color: red;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+h1 {
+    font-size: 200%;
+    margin: 0px;
+    text-align: center;
+    
+}

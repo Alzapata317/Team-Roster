@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/Alzapata317/Team-Roster/issues"
   },
-  "homepage": "https://github.com/Alzapata317/Team-Roster#readme"
+  "homepage": "https://github.com/Alzapata317/Team-Roster#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  }
 }

@@ -1,7 +1,7 @@
 // INDEX.JS //
 
 // require all of your classes/constructors, (Manager, Engineer, Intern)
-// require packages needed (inquirer, path, fs)
+const Manager = require('./lib/Manager')
 const path = require('path')
 const fs = require('fs')
 const inquirer = require('inquirer')
@@ -16,12 +16,32 @@ function init() {
     function createManager() {
       // use inquirer
       // and prompt to ask questions
-  
-      // once you finish your questions, you'll probably want to send those answers to a new instance of Manager (one of the classes you'll create and require above)
-      then((answers) => {
-      const manager = new Manager(
-        //send your answers here
-      );
+      inquirer
+        .prompt([
+          {
+            type: 'iput',
+            name: 'name',
+            message: 'What is the name of the team manager?',
+          },
+          {
+            type: 'input',
+            name: 'id',
+            message: 'What is their id number?',
+          },
+          {
+            type: 'input',
+            name: 'email',
+            message: 'What is their email address?',
+          },
+          {
+            type: 'input',
+            name: 'office#',
+            message: 'What is the office number that they work in?',
+          },
+        ])
+      .then((answers) => {
+      const manager = new Manager(answers);
+      teamMembers.push(manager);
       // then you will need to push this new manager to the empty team array you set up above
       // and call the function for DETERMINING TYPE OF EMPLOYEE - we'll call it createTeam
       createTeam();
@@ -32,13 +52,38 @@ function init() {
     function createTeam() {
       // use inquirer
       // and prompt to ask questions - such as what type of employee they would like to add
-  
+      inquirer
+        .prompt([
+          {
+            type: 'list',
+            name: 'employment',
+            message: 'What type of employee would you like to add to the team?',
+            choices: ['Employee', 'Engineer', 'Intern', 'Would not like to add another employee'],
+          },
+        ])
       // then, based on their choice, run the function associated with adding that employee type
       then((choice) => {
       // conditional that runs function for employee type that the user selected
+      switch (choice) {
+        case 'Employee':
+          addEmployee()
+          break;
+        case 'Engineer':
+          addEngineer()
+          break;
+        case 'Intern':
+          addIntern()
+          break;
+        case 'Would not like to add another employee':
+          buildTeam()
+          break;
+        default:
+          console.log('No value was read')
+          break;
+      }
       // if they choose Intern, run addIntern function
       // if they no longer want to add members, you'll need to run the function that actually builds the team (creates the file, etc)
-    })
+      })
     }
   
     // function for ADDING A MEMBER /////////////////

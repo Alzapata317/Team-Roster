@@ -5,6 +5,9 @@ const Manager = require('./lib/Manager')
 const path = require('path')
 const fs = require('fs')
 const inquirer = require('inquirer')
+const Employee = require('./lib/Employee')
+const Engineer = require('./lib/Engineer')
+const Intern = require('./lib/Intern')
 // set up an empty array for the Team Members
 const teamMembers = {}
 // set up functions for iniitalizing the app, creating a manager, determining which type of employee the user wants to add, adding each member type, and building the team
@@ -88,13 +91,98 @@ function init() {
   
     // function for ADDING A MEMBER /////////////////
     // a seperate function for each member type
-    function addIntern() {
-      // use inquirer
-      // and prompt to ask questions
-      // take the answers, create a new instance of Intern, and add those answers to that new Intern
-      // push this new member into you team array
+    
+    function addEmployee() {
+      inquirer
+        .prompt([
+          {
+            type: 'iput',
+            name: 'name',
+            message: 'What is the name of the employee',
+          },
+          {
+            type: 'input',
+            name: 'id',
+            message: 'What is their id number?',
+          },
+          {
+            type: 'input',
+            name: 'email',
+            message: 'What is their email address?',
+          },
+        ])
+        .then((answers) => {
+          const employee = new Employee(answers);
+          teamMembers.push(employee);
+          // then you will need to push this new manager to the empty team array you set up above
+          // and call the function for DETERMINING TYPE OF EMPLOYEE - we'll call it createTeam
+          createTeam();
+        })
     }
-  
+    function addEngineer() {
+      inquirer
+        .prompt([
+          {
+            type: 'iput',
+            name: 'name',
+            message: 'What is the name of the engineer?',
+          },
+          {
+            type: 'input',
+            name: 'id',
+            message: 'What is their id number?',
+          },
+          {
+            type: 'input',
+            name: 'email',
+            message: 'What is their email address?',
+          },
+          {
+            type: 'input',
+            name: 'github',
+            message: 'What is their github username?'
+          }
+        ])
+        .then((answers) => {
+          const engineer = new Engineer(answers);
+          teamMembers.push(engineer);
+          // then you will need to push this new manager to the empty team array you set up above
+          // and call the function for DETERMINING TYPE OF EMPLOYEE - we'll call it createTeam
+          createTeam();
+        })
+    }
+    function addIntern() {
+      inquirer
+        .prompt([
+          {
+            type: 'iput',
+            name: 'name',
+            message: 'What is the name of the engineer?',
+          },
+          {
+            type: 'input',
+            name: 'id',
+            message: 'What is their id number?',
+          },
+          {
+            type: 'input',
+            name: 'email',
+            message: 'What is their email address?',
+          },
+          {
+            type: 'input',
+            name: 'school',
+            message: 'What school does your intern go to?'
+          }
+        ])
+        .then((answers) => {
+          const intern = new Intern(answers);
+          teamMembers.push(intern);
+          // then you will need to push this new manager to the empty team array you set up above
+          // and call the function for DETERMINING TYPE OF EMPLOYEE - we'll call it createTeam
+          createTeam();
+        })
+    }
     // function for BUIDING THE TEAM //////////////////
     function buildTeam() {
       // creating the file, adding your team to it

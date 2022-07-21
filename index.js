@@ -28,14 +28,8 @@ const generateHTML = `<!DOCTYPE html>
       `;
 
 // set up functions for iniitalizing the app, creating a manager, determining which type of employee the user wants to add, adding each member type, and building the team
-      function finishPage() {
-      fs.appendFile('./dist/test.html', `
-  </main>
-</body>
-</html`,(err) => 
-      err ? console.log(err) : console.log('Successfully appended file!')
-      );
-      }
+
+      
 // function for INITIALIZING ////////////////
 function init() {
     // first thing you'll probably want to do is add a function for creating a manager, since that's the first thing you have to do
@@ -181,7 +175,7 @@ function init() {
           {
             type: 'input',
             name: 'name',
-            message: 'What is the name of the engineer?',
+            message: 'What is the name of the intern?',
           },
           {
             type: 'input',
@@ -260,7 +254,7 @@ function init() {
                   <ul>
                       <li>Id: ${teamMembers[i].id}</li>
                       <li>Email: ${teamMembers[i].email}</li>
-                      <li>Office Number: ${teamMembers[i].github}</li>
+                      <li>Github: ${teamMembers[i].github}</li>
                   </ul>
               </div>
           </div>`)),(err) => 
@@ -278,7 +272,7 @@ function init() {
                   <ul>
                       <li>Id: ${teamMembers[i].id}</li>
                       <li>Email: ${teamMembers[i].email}</li>
-                      <li>Office Number: ${teamMembers[i].school}</li>
+                      <li>School: ${teamMembers[i].school}</li>
                   </ul>
               </div>
           </div>

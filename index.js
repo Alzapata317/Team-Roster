@@ -1,5 +1,4 @@
 // INDEX.JS //
-
 // require all of your classes/constructors, (Manager, Engineer, Intern)
 const Manager = require('./lib/Manager')
 const path = require('path')
@@ -9,9 +8,34 @@ const Employee = require('./lib/Employee')
 const Engineer = require('./lib/Engineer')
 const Intern = require('./lib/Intern')
 // set up an empty array for the Team Members
-const teamMembers = {}
-// set up functions for iniitalizing the app, creating a manager, determining which type of employee the user wants to add, adding each member type, and building the team
+const teamMembers = [];
 
+    
+const generateHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <h1>My Team</h1>
+    </nav>
+    <main>
+      `;
+
+// set up functions for iniitalizing the app, creating a manager, determining which type of employee the user wants to add, adding each member type, and building the team
+      function finishPage() {
+      fs.appendFile('./dist/test.html', `
+  </main>
+</body>
+</html`,(err) => 
+      err ? console.log(err) : console.log('Successfully appended file!')
+      );
+      }
 // function for INITIALIZING ////////////////
 function init() {
     // first thing you'll probably want to do is add a function for creating a manager, since that's the first thing you have to do
@@ -22,7 +46,7 @@ function init() {
       inquirer
         .prompt([
           {
-            type: 'iput',
+            type: 'input',
             name: 'name',
             message: 'What is the name of the team manager?',
           },
@@ -38,12 +62,12 @@ function init() {
           },
           {
             type: 'input',
-            name: 'office#',
+            name: 'officeNumber',
             message: 'What is the office number that they work in?',
           },
         ])
       .then((answers) => {
-      const manager = new Manager(answers);
+      const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber, "Manager");
       teamMembers.push(manager);
       // then you will need to push this new manager to the empty team array you set up above
       // and call the function for DETERMINING TYPE OF EMPLOYEE - we'll call it createTeam
@@ -65,9 +89,9 @@ function init() {
           },
         ])
       // then, based on their choice, run the function associated with adding that employee type
-      then((choice) => {
+      .then((choice) => {
       // conditional that runs function for employee type that the user selected
-      switch (choice) {
+      switch ((choice.employment)) {
         case 'Employee':
           addEmployee()
           break;
@@ -96,7 +120,7 @@ function init() {
       inquirer
         .prompt([
           {
-            type: 'iput',
+            type: 'input',
             name: 'name',
             message: 'What is the name of the employee',
           },
@@ -112,7 +136,7 @@ function init() {
           },
         ])
         .then((answers) => {
-          const employee = new Employee(answers);
+          const employee = new Employee(answers.name, answers.id, answers.email, 'Employee');
           teamMembers.push(employee);
           // then you will need to push this new manager to the empty team array you set up above
           // and call the function for DETERMINING TYPE OF EMPLOYEE - we'll call it createTeam
@@ -123,7 +147,7 @@ function init() {
       inquirer
         .prompt([
           {
-            type: 'iput',
+            type: 'input',
             name: 'name',
             message: 'What is the name of the engineer?',
           },
@@ -144,7 +168,7 @@ function init() {
           }
         ])
         .then((answers) => {
-          const engineer = new Engineer(answers);
+          const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github, 'Engineer');
           teamMembers.push(engineer);
           // then you will need to push this new manager to the empty team array you set up above
           // and call the function for DETERMINING TYPE OF EMPLOYEE - we'll call it createTeam
@@ -155,7 +179,7 @@ function init() {
       inquirer
         .prompt([
           {
-            type: 'iput',
+            type: 'input',
             name: 'name',
             message: 'What is the name of the engineer?',
           },
@@ -176,7 +200,7 @@ function init() {
           }
         ])
         .then((answers) => {
-          const intern = new Intern(answers);
+          const intern = new Intern(answers.name, answers.id, answers.email, answers.school, 'Intern');
           teamMembers.push(intern);
           // then you will need to push this new manager to the empty team array you set up above
           // and call the function for DETERMINING TYPE OF EMPLOYEE - we'll call it createTeam
@@ -185,11 +209,99 @@ function init() {
     }
     // function for BUIDING THE TEAM //////////////////
     function buildTeam() {
-      // creating the file, adding your team to it
-      // probably call a function, passing in your team members array - send it to another js file 
+      fs.writeFile('./dist/test.html', generateHTML, (err) => 
+      err ? console.log(err) : console.log('Successfully created file!')
+      );
+      for (let i = 0; i < teamMembers.length; i++) {
+      setTimeout(() => {
+      switch (teamMembers[i].role) {
+        case 'Manager':
+                fs.appendFile('./dist/test.html',((`<div class="card">
+                <div class="head">
+                    <h2>${teamMembers[i].name}</h2>
+                    <h2>${teamMembers[i].role}</h2>
+                </div>
+                <div>
+                    <ul>
+                        <li>Id: ${teamMembers[i].id}</li>
+                        <li>Email: ${teamMembers[i].email}</li>
+                        <li>Office Number: ${teamMembers[i].officeNumber}</li>
+                    </ul>
+                </div>
+            </div>`)),(err) => 
+                err ? console.log(err) : console.log('Successfully appended file!')
+                ); 
+          break;
+        case 'Employee':
+          fs.appendFile('./dist/test.html',((`
+          <div class="card">
+              <div class="head">
+                  <h2>${teamMembers[i].name}</h2>
+                  <h2>${teamMembers[i].role}</h2>
+              </div>
+              <div>
+                  <ul>
+                      <li>Id: ${teamMembers[i].id}</li>
+                      <li>Email: ${teamMembers[i].email}</li>
+                  </ul>
+              </div>
+          </div>`)),(err) => 
+          err ? console.log(err) : console.log('Successfully appended file!')
+          );
+          break;
+        case 'Engineer':
+          fs.appendFile('./dist/test.html',((`
+          <div class="card">
+              <div class="head">
+                  <h2>${teamMembers[i].name}</h2>
+                  <h2>${teamMembers[i].role}</h2>
+              </div>
+              <div>
+                  <ul>
+                      <li>Id: ${teamMembers[i].id}</li>
+                      <li>Email: ${teamMembers[i].email}</li>
+                      <li>Office Number: ${teamMembers[i].github}</li>
+                  </ul>
+              </div>
+          </div>`)),(err) => 
+          err ? console.log(err) : console.log('Successfully appended file!')
+          );           
+          break;
+        case 'Intern':
+          fs.appendFile('./dist/test.html',((`
+          <div class="card">
+              <div class="head">
+                  <h2>${teamMembers[i].name}</h2>
+                  <h2>${teamMembers[i].role}</h2>
+              </div>
+              <div>
+                  <ul>
+                      <li>Id: ${teamMembers[i].id}</li>
+                      <li>Email: ${teamMembers[i].email}</li>
+                      <li>Office Number: ${teamMembers[i].school}</li>
+                  </ul>
+              </div>
+          </div>
+    </main>
+</body>
+</html`)),(err) => 
+          err ? console.log(err) : console.log('Successfully appended file!')
+          );
+          break;          
+      
+        default:
+          console.log('fail')
+          break;
+      }        
+      }, 100);
+      }      
     }
+      // probably call a function, passing in your team members array - send it to another js file 
+
   
     // last thing you'll want to do inside of this initializing function is call your function for creating a manager, so that it's the first question the user is asked
   
     createManager();
   }
+
+init();

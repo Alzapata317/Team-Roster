@@ -287,7 +287,7 @@ function init() {
           console.log('fail')
           break;
       }        
-      }, 100);
+      }, 600);
       }      
     }
       // probably call a function, passing in your team members array - send it to another js file 
